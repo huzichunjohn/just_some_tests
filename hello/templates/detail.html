@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Detail</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>description</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ object.name }}</td>
+                <td>{{ object.description }}</td>
+                <td>
+                    <a href="{% url "application-setting-update" object.pk %}">setting</a>
+                    <a href="{% url "application-edit" object.pk %}">edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

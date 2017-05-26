@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit application</title>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.name == "name" or field.name == "description" or field.name == "repository" %}
+            <p>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </p>
+        {% endif %}
+    {% endfor %}
+    <p>
+        <label for="{{ form.language.id_for_label }}">{{ form.language.label }}</label>
+        <select name="{{ form.language.name}}" id="{{ form.language.id_for_label }}">
+            {% for value, text in form.language.field.choices %}
+                <option value="{{ value }}" {% if form.get_language == value %}selected{% endif %}>{{ text }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <input type="submit" value="submit" />
+</form>
+</body>
+</html>
