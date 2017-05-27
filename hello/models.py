@@ -68,10 +68,10 @@ class Setting(models.Model):
 
     @language.setter
     def language(self, value):
-        self.content_type = ContentType.objects.get(model=value)
-        if not self.object_id:
-            self.object_id = self.content_type.objects.create().id
-        self.save()
+        if self.language != value:
+            self.content_type = ContentType.objects.get(model=value)
+            self.object_id = self.content_type.model_class().objects.create().id
+            self.save()
 
 class Application(models.Model):
     name = models.CharField(max_length=64)
@@ -101,6 +101,7 @@ class Application(models.Model):
                 content_type = ContentType.objects.get(model=lang)
                 object_id = content_type.model_class().objects.create().id
                 self.setting = Setting.objects.create(content_type=content_type, object_id=object_id)
+            self.save()
         else:
             raise InvalidLanguage("Language {0} is invalid, please select from {1}.".format(lang, '/'.join(LANGS)))
     language = property(get_language, set_language)

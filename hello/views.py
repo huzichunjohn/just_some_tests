@@ -56,6 +56,7 @@ class ApplicationUpdateView(UpdateView):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.language = form.cleaned_data['language']
+        self.object.save()
         return super(ApplicationUpdateView, self).form_valid(form)
 
 class ApplicationDetailView(DetailView):
@@ -73,7 +74,7 @@ class ApplicationSettingUpdateView(UpdateView):
         return application.get_setting_instance()
 
     def get_form_class(self):
-        return self.object.get_form_class()
+        return self.get_object().get_form_class()
 
     def get_success_url(self):
         return reverse('application-detail', args=[self.kwargs['application_id']])
