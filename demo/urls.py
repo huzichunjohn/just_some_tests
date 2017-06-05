@@ -17,10 +17,14 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from hello import views
+from books.views import book_list, book_create, book_update
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name="home"),
+    url(r'^$', views.HomeView.as_view(), name="home"),
+    url(r'^books/$', book_list, name="book_list"),
+    url(r'^books/(?P<pk>\d+)/update/$', book_update, name="book_update"),
+    url(r'^books/create/$', book_create, name="book_create"),
     url(r'^application/add/$', views.ApplicationCreateView.as_view(), name='application-add'),
     url(r'^application/(?P<pk>\d+)/$', views.ApplicationDetailView.as_view(), name='application-detail'),
     url(r'^application/(?P<pk>\d+)/edit/$', views.ApplicationUpdateView.as_view(), name='application-edit'),
