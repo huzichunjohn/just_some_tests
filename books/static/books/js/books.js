@@ -8,10 +8,11 @@ $(function () {
           url: btn.attr("data-url"),
           type: 'get',
           dataType: 'json',
-          beforeSend: function () {
-              $("#modal-book").modal("show");
-          },
+          // beforeSend: function () {
+          //     $("#modal-book").modal("show");
+          // },
           success: function (data) {
+              $("#modal-book").modal("show");
               $("#modal-book .modal-content").html(data.html_form);
           }
       });
@@ -44,4 +45,8 @@ $(function () {
     // Update book
     $("#book-table").on("click", ".js-update-book", loadForm);
     $("#modal-book").on("submit", ".js-book-update-form", saveForm);
+
+    // Delete book
+    $("#book-table").on("click", ".js-delete-book", loadForm);
+    $("#modal-book").on("submit", ".js-book-delete-form", saveForm);
 });
