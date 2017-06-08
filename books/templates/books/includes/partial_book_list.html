@@ -18,6 +18,7 @@
                     data-url="{% url 'book_delete' book.id %}">
                 <span class="glyphicon glyphicon-trash"></span> Delete
             </button>
+            <a href="{% url 'book_detail' book.id %}" class="btn btn-default btn-sm">Detail</a>
         </td>
     </tr>
 {% empty %}

@@ -2,8 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
+from extras.models import CustomFieldModel, CustomFieldValue
 
-class Book(models.Model):
+class Book(CustomFieldModel, models.Model):
     HARDCOVER = 1
     PAPERBACK = 2
     EBOOK = 3
@@ -18,6 +20,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     pages = models.IntegerField(blank=True, null=True)
     book_type = models.PositiveSmallIntegerField(choices=BOOK_TYPES)
+    custom_field_values = GenericRelation(CustomFieldValue, content_type_field='obj_type', object_id_field='obj_id')
 
     class Meta:
         ordering = ['id']

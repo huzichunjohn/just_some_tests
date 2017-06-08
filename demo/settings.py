@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'hello',
     'widget_tweaks',
     'books',
+    'extras',
 ]
 
 MIDDLEWARE = [

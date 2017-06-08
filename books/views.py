@@ -2,12 +2,14 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 
 from .models import Book
 from .forms import BookForm
+from extras.admin import CustomFieldForm
 
 def book_list(request):
     books = Book.objects.all()
@@ -36,6 +38,10 @@ def book_create(request):
         form = BookForm()
     return save_book_form(request, form, 'books/includes/partial_book_create.html')
 
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, 'books/book_detail.html', {"book": book})
+
 def book_update(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
@@ -61,3 +67,11 @@ def book_delete(request, pk):
             request=request
         )
     return JsonResponse(data)
+
+def add_custom_field(request):
+    form = CustomFieldForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('book_list'))
+    return render(request, 'books/add_custom_field.html', {'form': form})
