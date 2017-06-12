@@ -2,18 +2,32 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 
 from .models import Book
-from .forms import BookForm
+from .forms import BookForm, BookCSVForm
+from . import tables
 from extras.admin import CustomFieldForm
+from utilities.views import BulkImportView
 
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'books/book_list.html', {'books': books})
+
+def book_export(request):
+    headers = Book.csv_headers
+    output = ','.join(headers) + '\n'
+    books = Book.objects.all()
+    output += '\n'.join([book.to_csv() for book in books])
+    response = HttpResponse(
+        output,
+        content_type='text/csv'
+    )
+    response['Content-Disposition'] = 'attachment; filename="books.csv"'
+    return response
 
 def save_book_form(request, form, template_name):
     data = dict()
@@ -75,3 +89,8 @@ def add_custom_field(request):
             form.save()
             return HttpResponseRedirect(reverse('book_list'))
     return render(request, 'books/add_custom_field.html', {'form': form})
+
+class BookImportView(BulkImportView):
+    model_form = BookCSVForm
+    default_return_url = 'book_list'
+    table = tables.BookTable

@@ -1,0 +1,8 @@
+{% load render_table from django_tables2 %}
+
+<div class="table-responsive">
+    {% render_table table 'includes/table.html' %}
+</div>
+{% with paginator=table.paginator page=table.page %}
+    {% include 'includes/paginator.html' %}
+{% endwith %}
