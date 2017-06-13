@@ -6,16 +6,28 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
+from django.core.paginator import PageNotAnInteger, EmptyPage
 
 from .models import Book
 from .forms import BookForm, BookCSVForm
 from . import tables
 from extras.admin import CustomFieldForm
 from utilities.views import BulkImportView
+from utilities.paginator import EnhancedPaginator
 
 def book_list(request):
-    books = Book.objects.all()
-    return render(request, 'books/book_list.html', {'books': books})
+    book_list = Book.objects.all()
+    paginator = EnhancedPaginator(book_list, 10)
+
+    page = request.GET.get('page')
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    return render(request, 'books/book_list.html', {'books': books, 'paginator': paginator})
 
 def book_export(request):
     headers = Book.csv_headers

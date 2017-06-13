@@ -5,7 +5,9 @@ from django.shortcuts import render
 from django.forms import Form
 from django.db import transaction
 from django.core.exceptions import ValidationError
+from django_tables2 import RequestConfig
 from utilities.forms import BootstrapMixin, CSVDataField
+from utilities.paginator import EnhancedPaginator
 
 class BulkImportView(View):
     """
@@ -68,14 +70,15 @@ class BulkImportView(View):
 
                 # Compile a table containing the imported objects
                 obj_table = self.table(new_objs)
-                msg = 'Imported {} {}'.format(len(new_objs), new_objs[0]._meta.verbose_name_plural)
-                messages.success(request, msg)
 
-                return render(request, "import_success.html", {
-                    'table': obj_table,
-                    'return_url': self.default_return_url,
-                })
+                if new_objs:
+                    msg = 'Imported {} {}'.format(len(new_objs), new_objs[0]._meta.verbose_name_plural)
+                    messages.success(request, msg)
 
+                    return render(request, "import_success.html", {
+                        'table': obj_table,
+                        'return_url': self.default_return_url,
+                    })
             except ValidationError:
                 pass
 
