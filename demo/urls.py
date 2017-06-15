@@ -30,6 +30,7 @@ urlpatterns = [
     # url(r'^books/(?P<pk>\d+)/update/$', book_update, name="book_update"),
     # url(r'^books/(?P<pk>\d+)/delete/$', book_delete, name="book_delete"),
     # url(r'^books/create/$', book_create, name="book_create"),
+    url(r'^genres/$', views.show_genres, name='show_genres'),
     url(r'^application/add/$', views.ApplicationCreateView.as_view(), name='application-add'),
     url(r'^application/(?P<pk>\d+)/$', views.ApplicationDetailView.as_view(), name='application-detail'),
     url(r'^application/(?P<pk>\d+)/edit/$', views.ApplicationUpdateView.as_view(), name='application-edit'),

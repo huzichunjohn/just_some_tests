@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, CreateView, UpdateView, DetailVie
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .models import Application
+from .models import Application, Genre
 from .forms import ApplicationForm
 
 def index(request):
@@ -78,3 +78,6 @@ class ApplicationSettingUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('application-detail', args=[self.kwargs['application_id']])
+
+def show_genres(request):
+    return render(request, "genres.html", {'nodes': Genre.objects.all()})

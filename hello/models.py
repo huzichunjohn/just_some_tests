@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from mptt.models import MPTTModel, TreeForeignKey
 
 LANGUAGES = ["java", "php", "node"]
 
@@ -197,3 +198,10 @@ class Dog(models.Model):
 from picklefield.fields import PickledObjectField
 class SomeObject(models.Model):
     args = PickledObjectField()
+
+class Genre(MPTTModel):
+    name = models.CharField(max_length=50, unique=True)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
