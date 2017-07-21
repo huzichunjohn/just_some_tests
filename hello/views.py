@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import TemplateView, CreateView, UpdateView, DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -15,7 +16,16 @@ def index(request):
     return HttpResponse("hello world.")
 
 def home(request):
-    return HttpResponseRedirect(reverse('home'))
+    number_list = range(1, 1000)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(number_list, 20)
+    try:
+        numbers = paginator.page(page)
+    except PageNotAnInteger:
+        numbers = paginator.page(1)
+    except EmptyPage:
+        numbers = paginator.page(paginator.num_pages)
+    return render(request, 'home.html', {'numbers': numbers})
 
 class HomeView(TemplateView):
     template_name = 'home.html'

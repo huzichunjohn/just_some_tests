@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'hello',
     'widget_tweaks',
     'books',
+    'blog',
     'extras',
 ]
 

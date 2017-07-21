@@ -11,6 +11,7 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        {% block style %}{% endblock %}
     </head>
     <body>
         {% include 'includes/header.html' %}
@@ -20,6 +21,8 @@
         </div>
         <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+        <script src="{% static 'js/infinite.min.js' %}"></script>
         {% block javascript %}
         {% endblock %}
     </body>

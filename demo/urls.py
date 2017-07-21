@@ -21,9 +21,11 @@ from books.views import book_list, book_export, book_detail, book_create, book_u
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.HomeView.as_view(), name="home"),
+    url(r'^$', views.home, name="home"),
+    # url(r'^$', views.HomeView.as_view(), name="home"),
     url(r'^add_custom_field/$', add_custom_field, name="add_custom_field"),
     url(r'^books/', include('books.urls')),
+    url(r'^blog/', include('blog.urls')),
     # url(r'^books/$', book_list, name="book_list"),
     # url(r'^books/export/$', book_export, name="book_export"),
     # url(r'^books/(?P<pk>\d+)/$', book_detail, name="book_detail"),

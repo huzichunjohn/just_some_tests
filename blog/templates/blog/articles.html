@@ -21,20 +21,26 @@
 
 {% block content %}
     <div class="infinite-container">
-        {% for number in numbers %}
+        {% for article in articles %}
             <div class="infinite-item">
-                {{ number }}
+                <h3>{{ article.title }}</h3>
+                <p>
+                    <small>{{ article.author }} / {{ article.date }}</small>
+                </p>
+                <p>
+                    {{ article.body|truncatechars:100 }}
+                </p>
             </div>
         {% endfor %}
     </div>
     
-    {% if numbers.has_next %}
-        <a href="?page={{ numbers.next_page_number }}" class="infinite-more-link">More</a>
-    {% endif %}
-
     <div class="loading" style="display: none;">
         Loading...
     </div>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="infinite-more-link">More</a>
+    {% endif %}
 {% endblock %}
 
 {% block javascript %}
@@ -50,3 +56,5 @@
         });
     </script>
 {% endblock %}
+
+
