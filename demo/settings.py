@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'books',
     'blog',
+    'search',
     'extras',
 ]
 

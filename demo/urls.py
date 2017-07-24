@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^add_custom_field/$', add_custom_field, name="add_custom_field"),
     url(r'^books/', include('books.urls')),
     url(r'^blog/', include('blog.urls')),
+    url(r'^search/', include('search.urls')),
     # url(r'^books/$', book_list, name="book_list"),
     # url(r'^books/export/$', book_export, name="book_export"),
     # url(r'^books/(?P<pk>\d+)/$', book_detail, name="book_detail"),
