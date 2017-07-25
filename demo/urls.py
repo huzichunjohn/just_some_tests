@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 from hello import views
 from books.views import book_list, book_export, book_detail, book_create, book_update, book_delete, add_custom_field
@@ -27,6 +29,7 @@ urlpatterns = [
     url(r'^books/', include('books.urls')),
     url(r'^blog/', include('blog.urls')),
     url(r'^search/', include('search.urls')),
+    url(r'^photos/', include('photos.urls')),
     # url(r'^books/$', book_list, name="book_list"),
     # url(r'^books/export/$', book_export, name="book_export"),
     # url(r'^books/(?P<pk>\d+)/$', book_detail, name="book_detail"),
@@ -39,3 +42,6 @@ urlpatterns = [
     url(r'^application/(?P<pk>\d+)/edit/$', views.ApplicationUpdateView.as_view(), name='application-edit'),
     url(r'^application/(?P<application_id>\d+)/setting/$', views.ApplicationSettingUpdateView.as_view(), name='application-setting-update'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
