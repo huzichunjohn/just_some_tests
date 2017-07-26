@@ -1,9 +1,29 @@
 $(function () {
+    // $(document).bind('dragover', function (e) {
+    //    var dropZone = $("#dropzone"),
+    //        timeout = window.dropZoneTimeout;
+    //    if (timeout) {
+    //        clearTimeout(timeout);
+    //    } else {
+    //        dropZone.addClass('in');
+    //    }
+    //    var hoveredDropZone = $(e.target).closest(dropZone);
+    //    dropZone.toggleClass('hover', hoveredDropZone.length);
+    //    window.dropZoneTimeout = setTimeout(function () {
+    //        window.dropZoneTimeout = null;
+    //        dropZone.removeClass('in hover');
+    //    }, 100);
+    // });
+    $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
+    });
+
     $(".js-upload-photos").click(function () {
         $("#fileupload").click();
     });
 
     $("#fileupload").fileupload({
+        dropZone: $("#dropzone"),
         dataType: 'json',
         sequentialUploads: true,
         start: function (e) {

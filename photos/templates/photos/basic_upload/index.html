@@ -1,11 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block style %}
+    <style type="text/css">
+{#        #dropzone {#}
+{#            background: palegreen;#}
+{#            width: 150px;#}
+{#            height: 50px;#}
+{#            line-height: 10px;#}
+{#            text-align: center;#}
+{#            font-weight: bold;#}
+{#        }#}
+{#        #dropzone.in {#}
+{#            width: 600px;#}
+{#            height: 200px;#}
+{#            line-height: 200px;#}
+{#            font-size: large;#}
+{#        }#}
+{#        #dropzone.hover {#}
+{#            background: lawngreen;#}
+{#        }#}
+{#        #dropzone.fade {#}
+{#            transition: all 0.3s ease-out;#}
+{#            opacity: 1;#}
+{#        }#}
+    </style>
+{% endblock %}
+
 {% block content %}
-    <div class="well text-muted text-center" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <div id="dropzone" class="well text-muted text-center" style="padding-top: 4rem; padding-bottom: 4rem;">
         <span class="glyphicon glyphicon-arrow-down" style="font-size: 4rem;"></span>
         <h3>Drop Photos Here to Upload</h3>
     </div>
+{#    <div id="dropzone" class="fade well">#}
+{#        Drop files here#}
+{#    </div>#}
 {#    <div style="margin-bottom: 20px;">#}
 {#        <button type="button" class="btn btn-primary js-upload-photos">#}
 {#            <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos#}
@@ -54,7 +83,6 @@
     <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
-
     <script src="{% static 'photos/js/basic-upload.js' %}"></script>
 {% endblock %}
 
