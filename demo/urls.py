@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import login, logout
 
 from hello import views
 from books.views import book_list, book_export, book_detail, book_create, book_update, book_delete, add_custom_field
@@ -24,6 +25,8 @@ from books.views import book_list, book_export, book_detail, book_create, book_u
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name="home"),
+    url(r'^accounts/login/$', login, name='login', kwargs={'template_name': 'login.html'}),
+    url(r'^accounts/logout/$', logout, name='logout', kwargs={'next_page': '/project/'}),
     url(r'^signup/$', views.SignUpView.as_view(), name='signup'),
     url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),
     # url(r'^$', views.HomeView.as_view(), name="home"),
@@ -33,6 +36,7 @@ urlpatterns = [
     url(r'^search/', include('search.urls')),
     url(r'^photos/', include('photos.urls', namespace='photos')),
     url(r'^album/', include('album.urls')),
+    url(r'^project/', include('project.urls')),
     # url(r'^books/$', book_list, name="book_list"),
     # url(r'^books/export/$', book_export, name="book_export"),
     # url(r'^books/(?P<pk>\d+)/$', book_detail, name="book_detail"),

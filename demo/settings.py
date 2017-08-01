@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'search',
     'photos',
     'album',
+    'project',
     'extras',
 ]
 

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load project_helpers %}
+
+{% block content %}
+    {% if object_list %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in object_list %}
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.description }}</td>
+                    <td>
+                        {% if project|is_project_admin:request.user %}
+                            <a href="{% url 'project_edit' project.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'project_delete' project.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="{% url 'project_detail' project.pk %}" class="btn btn-default btn-sm">Detail</a>
+                        {% elif project|is_project_member:request.user %}
+                            <a href="{% url 'project_detail' project.pk %}" class="btn btn-default btn-sm">Detail</a>
+                        {% else %}
+                            <span class="text-muted">N/A</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No project.</p>
+    {% endif %}
+{% endblock %}

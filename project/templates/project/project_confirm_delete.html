@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form class="form form-horizontal" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        <a class="btn btn-default btn-sm" href="{% url 'project_list' %}">Cancel</a>
+    </form>
+{% endblock %}

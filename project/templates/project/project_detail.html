@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ object.name }}</h2>
+    <p>{{ object.description }}</p>
+    <ul>
+        {% for member in object.members.all %}
+            <li>{{ member.username }}</li>
+        {% empty %}
+            <li>No members.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

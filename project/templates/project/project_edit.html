@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form action="." method="post" class="form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">{{ form.name.label_tag }}</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}">{{ form.description.label_tag }}</label>
+                    {{ form.description }}
+                </div>
+                <div class="form-group">
+                    <label for="id_members">{{ form.members.label_tag }}</label>
+                    <select name="members" id="id_members" class="form-control" multiple>
+                        {% for user in form.all_users %}
+                            <option value="{{ user.id }}" {% if user in object.members.all %} selected{% endif %}>{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                    <a class="btn btn-default btn-sm" href="{% url 'project_list' %}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $('select').select2();
+    </script>
+{% endblock %}
