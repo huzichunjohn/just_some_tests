@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block style %}
+{#    <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">#}
+    <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock %}
+
+{% block content %}
+    <table id="article" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="modal fade" id="update-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" class="js-update-blog-form">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Edit blog</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="blog-id" value="" class="hidden">
+                        <div class="form-group">
+                            <label for="id_title">Title</label>
+                            <input type="text" name="title" value="" placeholder="Title" class="form-control" id="id_title">
+                            <p class="help-block"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_author">Author</label>
+                            <input type="text" name="author" value="" placeholder="Author" class="form-control" id="id_author">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit blog</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" class="js-delete-blog-form">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-lable="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Confirm blog deletion</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="delete-blog-id" value="" class="hidden">
+                        <p class="lead">Are you sure you want to delete the blog <strong></strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete blog</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#article').dataTable({
+                oLanguage: {
+                    sLengthMenu: 'Display _MENU_ records',
+                    sInfo: 'Got a total of _TOTAL_ entries to show (_START_ to _END_)',
+                    oPaginate: {
+                        sFirst: 'First page',
+                        sPrevious: 'Previous page',
+                        sNext: 'Next page',
+                        sLast: 'Last page'
+                    },
+                    sZeroRecords: 'No records to display',
+                    sInfoEmpty: 'No entries to show'
+                },
+                ajax: {
+                    url: '/blog/api/',
+                    dataSrc: ''
+                },
+                columns: [
+                    {data: 'id'},
+                    {data: 'title'},
+                    {data: 'date'},
+                    {data: 'author'}
+                ],
+                columnDefs: [{
+                    aTargets: [4],
+                    mData: null,
+                    bSortable: false,
+                    bSearchable: false,
+                    mRender: function (data, type, full) {
+{#                        return '<a class="btn btn-warning btn-sm" href="/blog/' + full.id + '/edit/" data-id="'+ full.id + '"><span class="glyphicon glyphicon-pencil"></span> Edit</a>'#}
+{#                            +'&nbsp;&nbsp;'+'<a class="btn btn-danger btn-sm" href="/blog/' + full.id + '/delete/" data-id="' + full.id + '"><span class="glyphicon glyphicon-trash"></span> Delete</a>';#}
+                        return '<a class="btn btn-warning btn-sm js-update-blog" data-toggle="modal" data-target="#update-modal" href="" data-id="'+ full.id + '"><span class="glyphicon glyphicon-pencil"></span> Edit</a>'
+                            +'&nbsp;&nbsp;'+'<a class="btn btn-danger btn-sm js-delete-blog" data-toggle="modal" data-target="#delete-modal" data-id="' + full.id + '"><span class="glyphicon glyphicon-trash"></span> Delete</a>';
+                    }
+                }]
+            }).api();
+
+            $("#article").on('click', '.js-update-blog', function () {
+                $(".js-update-blog-form").removeClass("has-error");
+                $("#id_author").closest(".form-group").removeClass("has-error");
+                $("#id_author").siblings(".help-block").html("");
+                $("#id_title").closest(".form-group").removeClass("has-error");
+                $("#id_title").siblings(".help-block").html("");
+
+                var $tr = $(this).closest('tr');
+                var id = $tr.children('td').eq(0).html();
+                var title = $tr.children('td').eq(1).html();
+                var author = $tr.children('td').eq(3).html();
+                $("#blog-id").val(id);
+                $('#id_title').val(title);
+                $("#id_author").val(author);
+{#                $("#update-modal").modal("show");#}
+            });
+
+            $("#article").on('click', '.js-delete-blog', function () {
+                var $tr = $(this).closest('tr');
+                var id = $tr.children('td').eq(0).html();
+                var title = $tr.children('td').eq(1).html();
+                $("#delete-blog-id").val(id);
+                $("#delete-modal .modal-body p").children("strong").html(title);
+{#                $("#delete-modal").modal("show");#}
+            });
+
+            $("#update-modal").on("submit", ".js-update-blog-form", function () {
+                var form = $(this);
+                $.ajax({
+                    url: '/blog/api/articles/' + $("#blog-id").val() + '/',
+                    data: form.serialize(),
+                    type: 'PATCH',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#update-modal").modal("hide");
+                        table.ajax.reload();
+                    },
+                    error: function (xhr) {
+                        var has_field_error = false;
+                        var result = xhr.responseJSON;
+                        if (result.title) {
+                            $("#id_title").closest(".form-group").addClass("has-error");
+                            $("#id_title").siblings(".help-block").html(result.title.join());
+                            has_field_error = true;
+                        }
+                        if (result.author) {
+                            $("#id_author").closest(".form-group").addClass("has-error");
+                            $("#id_author").siblings(".help-block").html(result.author.join());
+                            has_field_error = true;
+                        }
+
+                        if (!has_field_error) {
+                            form.addClass("has-error");
+                        }
+                    }
+                });
+                return false;
+            });
+
+            $("#delete-modal").on("submit", ".js-delete-blog-form", function () {
+                var form = $(this);
+                $.ajax({
+                    url: '/blog/api/articles/' + $("#delete-blog-id").val() + '/',
+                    data: form.serialize(),
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#delete-modal").modal("hide");
+                        table.ajax.reload();
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
