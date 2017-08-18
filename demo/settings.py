@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'extras',
     'import_export',
     'rest_framework',
+    'django.contrib.sites',
+    'django.contrib.redirects',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'demo.urls'
@@ -153,3 +156,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     )
 }
+
+SITE_ID = 1
