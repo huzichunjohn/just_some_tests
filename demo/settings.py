@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.redirects',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
+    'middleware.maintenance.ServicesUnavailableMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -158,3 +159,5 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID = 1
+
+MAINTENANCE = False
