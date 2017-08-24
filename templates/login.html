@@ -5,6 +5,6 @@
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Login" class="btn btn-default btn-sm" />
-        <input type="hidden" name="next" value="/project/" />
+        <input type="hidden" name="next" value="{{ next }}" />
     </form>
 {% endblock %}

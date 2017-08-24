@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django.contrib.sites',
     'django.contrib.redirects',
+    'maintenance',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -160,4 +161,5 @@ REST_FRAMEWORK = {
 
 SITE_ID = 1
 
-MAINTENANCE = False
+# MAINTENANCE = False
+LOGIN_REDIRECT_URL = '/'

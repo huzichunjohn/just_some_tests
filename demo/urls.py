@@ -25,8 +25,9 @@ from books.views import book_list, book_export, book_detail, book_create, book_u
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name="home"),
+    url(r'^maintenance/', include('maintenance.urls', namespace='maintenance')),
     url(r'^accounts/login/$', login, name='login', kwargs={'template_name': 'login.html'}),
-    url(r'^accounts/logout/$', logout, name='logout', kwargs={'next_page': '/project/'}),
+    url(r'^accounts/logout/$', logout, name='logout', kwargs={'next_page': '/accounts/login/'}),
     url(r'^signup/$', views.SignUpView.as_view(), name='signup'),
     url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),
     # url(r'^$', views.HomeView.as_view(), name="home"),

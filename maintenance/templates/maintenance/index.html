@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Current maintenance mode</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% ifequal maintenance "on" %}
+                            <th>
+                                <span class="label label-success">on</span>
+                            </th>
+                            <th>
+                                <a type="button" class="btn btn-danger btn-xs" href="{% url 'maintenance:off' %}">OFF</a>
+                            </th>
+                        {% else %}
+                            <th>
+                                <span class="label label-danger">off</span>
+                            </th>
+                            <th>
+                                <a class="btn btn-success btn-xs" href="{% url 'maintenance:on' %}">ON</a>
+                            </th>
+                        {% endifequal %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
