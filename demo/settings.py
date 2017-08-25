@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Application definition
 
@@ -54,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.redirects',
     'maintenance',
+    'crispy_forms',
+    'foo',
 ]
 
 MIDDLEWARE_CLASSES = [
