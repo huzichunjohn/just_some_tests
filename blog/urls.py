@@ -2,10 +2,11 @@
 
 from django.conf.urls import url, include
 from rest_framework import routers
-from .views import ArticleView, export, simple_upload, generate_fake_data, get_articles, list, ArticleViewSet
+from .views import ArticleView, export, simple_upload, generate_fake_data, get_articles, list, ArticleViewSet, FileUploadViewSet
 
 router = routers.DefaultRouter()
 router.register(r'articles', ArticleViewSet)
+router.register(r'fileupload-list', FileUploadViewSet)
 
 urlpatterns = [
     url(r'^$', ArticleView.as_view(), name='blog'),
