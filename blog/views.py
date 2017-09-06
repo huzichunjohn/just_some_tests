@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.http import HttpResponse, JsonResponse
 from tablib import Dataset
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser
 from .models import Article, FileUpload
 from .resources import ArticleResource
@@ -59,9 +59,17 @@ class ArticleViewSet(ModelViewSet):
 class FileUploadViewSet(ModelViewSet):
     queryset = FileUpload.objects.all()
     serializer_class = FileUploadSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly,]
+    permission_classes = [IsAuthenticated,]
     parser_classes = (MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user,
                         datafile=self.request.data.get('datafile'))
+
+def fileupload(request):
+    return render(request, 'blog/fileupload.html')
+
+# from datetime import date
+# today = date.today()
+# birthday = date(1985, 10, 30)
+# age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))

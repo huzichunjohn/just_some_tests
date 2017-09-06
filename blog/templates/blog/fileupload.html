@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <button id="btn1" class="btn btn-danger btn-sm">Click</button>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $("#btn1").click(function () {
+               $.ajax({
+                   url: '/blog/api/fileupload-list/',
+                   type: 'GET',
+                   success: function (result) {
+                       console.log(result);
+                   }
+               });
+            });
+        });
+    </script>
+{% endblock %}
