@@ -24,6 +24,7 @@ def lock(conn, lock_key, lock_value='', timeout=3, expire=None, nowait=False):
         if not got_lock:
             if nowait:
                 break
+            print('Try to acquire lock on %s for %d times' % (lock_key, attempt))
             sleep(delay)
             attempt += 1
     print('Acquiring lock on %s' % lock_key)
