@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^photos/', include('photos.urls', namespace='photos')),
     url(r'^album/', include('album.urls')),
     url(r'^project/', include('project.urls')),
+    url(r'^contact/', include('contact.urls')),
     # url(r'^books/$', book_list, name="book_list"),
     # url(r'^books/export/$', book_export, name="book_export"),
     # url(r'^books/(?P<pk>\d+)/$', book_detail, name="book_detail"),

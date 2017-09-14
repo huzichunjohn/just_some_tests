@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'maintenance',
     'crispy_forms',
     'foo',
+    'contact',
 ]
 
 MIDDLEWARE_CLASSES = [
